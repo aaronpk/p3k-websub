@@ -192,7 +192,7 @@ class Client {
     if(isset($options['secret'])) {
       $params['hub.secret'] = $options['secret'];
     }
-    $response = $this->http->post($hub, $params);
+    $response = $this->http->post($hub, http_build_query($params));
 
     // TODO: Check for HTTP 307/308 and subscribe at the new location
 
@@ -205,7 +205,7 @@ class Client {
       'hub.topic' => $topic,
       'hub.callback' => $callback,
     ];
-    $response = $this->http->post($hub, $params);
+    $response = $this->http->post($hub, http_build_query($params));
 
     // TODO: Check for HTTP 307/308 and unsubscribe at the new location
 
