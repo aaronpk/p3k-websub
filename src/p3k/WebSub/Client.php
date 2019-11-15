@@ -108,21 +108,13 @@ class Client {
             $type = $body['type'] = 'rss';
           } elseif($xpath->query('/atom:feed')->length) {
             $type = $body['type'] = 'atom';
+          } elseif($xpath->query('/rdf:RDF')->length) {
+            $type = $body['type'] = 'rdf';
           }
 
-          // Look for atom link elements in the feed        
-          foreach($xpath->query('/atom:feed/atom:link[@href]') as $link) {
-            $rel = $link->getAttribute('rel');
-            $url = $link->getAttribute('href');
-            if($rel == 'hub') {
-              $body['hub'][] = $url;
-            } else if($rel == 'self') {
-              $body['self'][] = $url;
-            }
-          }
-
-          // Some RSS feeds include the link element as an atom attribute
-          foreach($xpath->query('/rss/channel/atom:link[@href]') as $link) {
+          // Find all link elements in the feed.
+          $links = $dom->getElementsByTagName('link');
+          foreach ($links as $link) {
             $rel = $link->getAttribute('rel');
             $url = $link->getAttribute('href');
             if($rel == 'hub') {
@@ -213,7 +205,7 @@ class Client {
   }
 
   public static function verify_signature($body, $signature_header, $secret) {
-    if($signature_header && is_string($signature_header) 
+    if($signature_header && is_string($signature_header)
       && preg_match('/(sha(?:1|256|384|512))=(.+)/', $signature_header, $match)) {
       $alg = $match[1];
       $sig = $match[2];
