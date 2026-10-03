@@ -56,7 +56,7 @@ class Client {
         if(strpos($content_type, 'text/html') !== false) {
           $type = $http['type'] = 'html';
         } else if(strpos($content_type, 'xml') !== false) {
-          if(strpos('rss', $content_type) !== false) {
+          if(strpos($content_type, 'rss') !== false) {
             $type = $http['type'] = 'rss';
           } else if(strpos($content_type, 'atom') !== false) {
             $type = $http['type'] = 'atom';
