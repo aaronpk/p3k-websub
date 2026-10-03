@@ -17,6 +17,7 @@
     "p3k/utils": "1.*"
   },
   "require-dev": {
+    "phpunit/phpunit": "^9.6 || ^10 || ^11",
     "predis/predis": "1.*"
   },
   "autoload": {
@@ -25,5 +26,11 @@
     }
   },
   "autoload-dev": {
+    "psr-4": {
+      "p3k\\WebSub\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
   }
 }
