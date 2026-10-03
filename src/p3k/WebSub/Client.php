@@ -218,7 +218,7 @@ class Client {
       $alg = $match[1];
       $sig = $match[2];
       $expected_signature = hash_hmac($alg, $body, $secret);
-      return $sig == $expected_signature;
+      return hash_equals($sig, $expected_signature);
     } else {
       return false;
     }
